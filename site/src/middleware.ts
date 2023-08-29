@@ -5,8 +5,13 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 	// Check if request url matches EXACTLY /room
 	if (request.nextUrl.pathname.match('^/room$')) {
 		const roomId = await createRoom();
-		// on successful redirect, browser history will reflect / -> /room/room_id
-		return NextResponse.redirect(new URL(`/room/${roomId}`, request.url));
+		if (roomId) {
+			// on successful redirect, browser history will reflect / -> /room/room_id
+			return NextResponse.redirect(new URL(`/room/${roomId}`, request.url));
+		} else {
+			// if create room has failed on first and on retries, then provide error.
+			return NextResponse.redirect(new URL(`/error`, request.url));
+		}
 	}
 
 	/* 
