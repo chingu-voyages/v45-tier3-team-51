@@ -4,6 +4,7 @@
 - Follow this guide to make a vercel postgres database: [guide](https://vercel.com/docs/storage/vercel-postgres/quickstart). Follow only until step 2 and copy the database URL.
 - Copy the secrets under the `.env.local` in the vercel postgres dashboard section after creating a database and paste the secrets in your `.env` file
 - Run `npx prisma migrate dev` to create the tables in your database
+- Run `npx prisma db seed` to populate the database with the initial set of questions
 
 # Tech stack
 - Next.js + React + Typescript
