@@ -9,14 +9,20 @@ export async function deleteRoom(roomId: number) {
   });
 }
 
+type room = {
+  room_id: number;
+  current_question: number;
+  created_at: Date;
+};
+
 // Function to schedule room deletion after a specified duration
 export async function scheduleRoomDeletion(roomId: number, duration: number) {
   setTimeout(async () => {
-    const room = await prisma.rooms.findUnique({
+    const room = (await prisma.rooms.findUnique({
       where: {
         room_id: roomId,
       },
-    });
+    })) as room;
 
     // Check if the room exists and if it has exceeded the duration
     if (room && Date.now() - room.created_at.getTime() >= duration) {
