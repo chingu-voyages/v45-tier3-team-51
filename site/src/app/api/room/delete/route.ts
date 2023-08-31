@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
 // Delete all rooms that have exceeded a 24 hour lifespan
-export async function GET(req: Request) {
+export async function DELETE(req: Request) {
 	// find many first, then delete
 
 	// find and delete in one go
