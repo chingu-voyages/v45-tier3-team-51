@@ -23,9 +23,14 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 	if url is ^/room/[0-9]+$
 		check to see if room exists
 	*/
+
+	/*
+	Condition access to only accept outside api access explicity from cron?
+	*/
 }
 
 export const config = {
 	// Prevent url access to the api folder, static files, images, and icons within the pages directory
-	matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+	// matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+	matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
