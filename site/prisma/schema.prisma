@@ -12,9 +12,11 @@ datasource db {
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
 
+
 model rooms {
-  room_id     Int     @id @default(autoincrement())
-  current_question Int @default(0) // 0 means the game has not started
+  room_id          Int      @id @default(autoincrement())
+  current_question Int      @default(0) // 0 means the game has not started
+  created_at       DateTime @default(now()) // Add the created_at field with the current timestamp
 }
 
 model questions {
