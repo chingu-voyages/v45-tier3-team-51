@@ -1,9 +1,8 @@
-import { getBaseUrl } from '@/lib/server/getBaseUrl';
 import { test, expect } from '@playwright/test';
 
 // const url = 'https://chingu.sabih.me/';
 const url = 'http://localhost:3000/';
-// const url = getBaseUrl();
+
 const titleContent = 'Break the ice with fun questions!';
 
 test('load the landing page succesfully', async ({ page }) => {
