@@ -21,3 +21,28 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     return new NextResponse("Error fetching room", { status: 500 });
   }
 }
+
+// update current_question
+export const PATCH = async (req: Request, { params }: { params: { id: string } }) => {
+  const id = params.id;
+
+  try {
+      const updateRoom = await prisma.rooms.update({
+        where: {
+          room_id: parseInt(id),
+        },
+        data: {
+          current_question:  {
+            increment: 1
+          }
+        }
+
+      })
+
+      if(!updateRoom) return new Response('room not found', {status:404})
+
+      return new Response(JSON.stringify(updateRoom), {status:200})
+  } catch(error){
+      return new Response('failed to update room', {status:500})
+  }
+}

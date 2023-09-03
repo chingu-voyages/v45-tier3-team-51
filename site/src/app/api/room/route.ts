@@ -11,6 +11,7 @@ export async function POST(req: Request) {
 
 		return NextResponse.json({
 			room_id: new_room.room_id,
+			current_question: new_room.current_question
 		});
 	} catch (error) {
 		console.error(`Error creating room: `, error);
