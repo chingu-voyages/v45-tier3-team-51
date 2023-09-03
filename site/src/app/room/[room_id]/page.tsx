@@ -6,39 +6,20 @@ import { Buttons } from '@/components/Buttons';
 import { CopyLink } from '@/components/CopyLink';
 import { Display } from '@/components/Display';
 import Question from '@/components/Question';
+import { usePathname } from 'next/navigation';
 
-const nextQuestionHandler = () => {
-	console.log('test');
-	const updateQuestionNum = async (e) => {
-		e.preventDefault()
-		if(!roomId) return alert('Prompt id not found')
-
-		try{
-			const response = await fetch(`/api/room/${roomId}`, 
-			{
-				method:'PATCH',
-			})
-
-			if(response.ok){
-				console.log('updated question')
-			}
-		}
-		catch(error){
-			console.log(error)
-		}
-
-	}
-};
 
 // async function roomSetup() {}
 
 export default function Home() {
+	const path = usePathname();
+	const roomId = (path.split('/')[2])
+
 	return (
 		<>
 			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 				<Header />
 				<Display text='LINK / QUESTION' />
-				{/* <Question roomId={roomId} current_question={current_question}/> */}
 				<CopyLink />
 				<Buttons text='Next Question' size='lg' onClick={nextQuestionHandler} />
 				<Footer />
