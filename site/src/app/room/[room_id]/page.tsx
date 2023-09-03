@@ -5,13 +5,10 @@ import { Footer } from '@/components/Footer';
 import { Buttons } from '@/components/Buttons';
 import { CopyLink } from '@/components/CopyLink';
 import { Display } from '@/components/Display';
-import Question from '@/components/Question';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { pusherClient } from '@/lib/pusher';
 
-
-// async function roomSetup() {}
 
 export default function Home() {
 	const path = usePathname();
@@ -32,13 +29,13 @@ export default function Home() {
 
         if(roomId) getRoomDetails()
 
-		pusherClient.subscribe(`room`)
-		console.log("subscribed to channel")
+		pusherClient.subscribe(`${roomId}`)
+		console.log(`subscribed to channel ${roomId}`)
 
-		// question is coming from the server
+		// question coming from the server
 		const questionHandler= (question: string) => {
 			setQuestion(question)
-			console.log('new question from server')
+			console.log('new question from server', question)
 		}
 
 		pusherClient.bind('new-question', questionHandler)
@@ -50,7 +47,7 @@ export default function Home() {
 	},[roomId])
 
 	const startGame = async () => {
-		// update current question
+		// update current question num
 		if(!roomId) return alert('room id not found')
 
         try{
@@ -72,30 +69,52 @@ export default function Home() {
 	
 
 	const getQuestion = async () => {
-		const response = await fetch(`/api/question/${current_question}`)
-		const data = await response.json()
-		setQuestion(data)
-	  }
+
+		// updating current_question
+		try{
+            const response = await fetch(`/api/room/${roomId}`, 
+            {
+                method:'PATCH',
+            })
+			setCurrentQuestion(parseInt(response))
+			// making POST for new question if current question gets updated
+            if(response.ok){
+    
+				const res = await fetch(`/api/question`, {
+					method: 'POST',
+					body:JSON.stringify({
+						roomId:roomId,
+						id:current_question
+					})
+
+				});
+				if(res.ok){
+					console.log("POST", res)
+				}
+            }
+		
+        }
+        catch(error){
+            console.log(error)
+        }}
 
 
 	return (
 		<>
 			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 				<Header />
-				<Display text={question} />
-				<CopyLink />
-				<Buttons text='Start Game' size='lg' onClick={startGame} />
-				<Footer />
+				<div style={{ display: gameStarted ? "none" : "" }}>
+					<CopyLink />
+					<Buttons text='Start Game' size='lg' onClick={startGame}/>
+				</div>
 
-				{/* Will be replace by link or display component  */}
-				{/* <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-					LINK / QUESTION
-				</div> */}
-				{/*   */}
-				{/* Will be replace by button component  */}
-				{/* <div className='relative flex place-items-center before:absolute '>
-					<Buttons text='next question' size='lg' onClick={() => console.log('Next question')} />
-				</div> */}
+				<div style={{ display: !gameStarted ? "none" : "" }}>
+					<Display text={question}/>
+					<Buttons text='Next Question' size='lg' onClick={getQuestion}/>
+
+      			</div>
+
+				<Footer />
 			</main>
 		</>
 	);

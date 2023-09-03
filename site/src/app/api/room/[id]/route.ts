@@ -41,7 +41,9 @@ export const PATCH = async (req: Request, { params }: { params: { id: string } }
 
       if(!updateRoom) return new Response('room not found', {status:404})
 
-      return new Response(JSON.stringify(updateRoom), {status:200})
+      return NextResponse.json({
+        current_question: updateRoom.current_question
+      })
   } catch(error){
       return new Response('failed to update room', {status:500})
   }
