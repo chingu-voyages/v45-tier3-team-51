@@ -3,13 +3,13 @@ import PusherClient from "pusher-js"
 
 export const pusherServer = new PusherServer({
     appId: process.env.PUSHER_APP_ID!,
-    key: process.env.NEXT_PUSHER_APP_KEY!,
+    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
     secret: process.env.PUSHER_APP_SECRET!,
     cluster: 'us3',
     useTLS: true
 })
 
-export const pusherClient = new PusherClient( process.env.NEXT_PUBLIC_APP_KEY!, 
+export const pusherClient = new PusherClient( process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, 
     {
         cluster: 'us3'
     }

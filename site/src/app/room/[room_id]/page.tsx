@@ -7,6 +7,8 @@ import { CopyLink } from '@/components/CopyLink';
 import { Display } from '@/components/Display';
 import Question from '@/components/Question';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { pusherClient } from '@/lib/pusher';
 
 
 // async function roomSetup() {}
@@ -14,14 +16,75 @@ import { usePathname } from 'next/navigation';
 export default function Home() {
 	const path = usePathname();
 	const roomId = (path.split('/')[2])
+	const [question, setQuestion] = useState('')
+	const [gameStarted, setGameStarted] = useState(false)
+	const [current_question, setCurrentQuestion] = useState(0)
+
+	// subscribe to roomId channel
+	useEffect(() => {
+		// getting the current question number
+		const getRoomDetails = async () => {
+            const response = await fetch(`/api/room/${roomId}`)
+            const data = await response.json()
+			console.log(data.current_question)
+			setCurrentQuestion(data.current_question)
+        }
+
+        if(roomId) getRoomDetails()
+
+		pusherClient.subscribe(`room`)
+		console.log("subscribed to channel")
+
+		// question is coming from the server
+		const questionHandler= (question: string) => {
+			setQuestion(question)
+			console.log('new question from server')
+		}
+
+		pusherClient.bind('new-question', questionHandler)
+
+		return () => {
+			pusherClient.unsubscribe(`${roomId}`)
+			pusherClient.unbind('new-question', questionHandler)
+		}
+	},[roomId])
+
+	const startGame = async () => {
+		// update current question
+		if(!roomId) return alert('room id not found')
+
+        try{
+            const response = await fetch(`/api/room/${roomId}`, 
+            {
+                method:'PATCH',
+            })
+
+            if(response.ok){
+                console.log(response)
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+
+		setGameStarted(true)
+    }
+	
+
+	const getQuestion = async () => {
+		const response = await fetch(`/api/question/${current_question}`)
+		const data = await response.json()
+		setQuestion(data)
+	  }
+
 
 	return (
 		<>
 			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 				<Header />
-				<Display text='LINK / QUESTION' />
+				<Display text={question} />
 				<CopyLink />
-				<Buttons text='Next Question' size='lg' onClick={nextQuestionHandler} />
+				<Buttons text='Start Game' size='lg' onClick={startGame} />
 				<Footer />
 
 				{/* Will be replace by link or display component  */}
