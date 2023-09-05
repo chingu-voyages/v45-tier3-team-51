@@ -3,15 +3,28 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
+    // Find the maximum room_id in the database
+    const maxRoom = await prisma.rooms.findFirst({
+      select: { room_id: true },
+      //tthe highest room_id will be returned as the first result
+      orderBy: { room_id: "desc" },
+    });
+
+    // Calculate the next available room_id // and if maxRoom is null nextRoomId will be set to 1 ( '0) + 1;' )
+    const nextRoomId = (maxRoom?.room_id || 0) + 1;
+
+    // Create a new room with the calculated room_id nextRoomId
     const new_room = await prisma.rooms.create({
       data: {
+        room_id: nextRoomId,
         current_question: 0,
       },
     });
 
     return NextResponse.json({
-      // only room_id is being returned. fetch call is expecting room_id, current_question, created_at
       room_id: new_room.room_id,
+      current_question: new_room.current_question,
+      created_at: new_room.created_at,
     });
   } catch (error) {
     console.error(`Error creating room: `, error);
@@ -32,19 +45,11 @@ export async function DELETE(req: Request) {
       },
     });
 
-    // Log the deleted rooms
-    console.log("Deleted rooms:", res);
+    console.log("Successfully deleted expired rooms!");
 
-    // Reset the auto-increment counter for the room_id column using raw SQL
-    await prisma.$executeRaw`ALTER SEQUENCE rooms_room_id_seq RESTART WITH 1`;
-
-    console.log("Successfully deleted expired rooms and reset room IDs!");
     return NextResponse.json(res);
   } catch (error) {
-    console.error(
-      "Error deleting expired rooms and resetting room IDs:",
-      error
-    );
+    console.error("Error deleting expired rooms:", error);
     return new NextResponse("Error deleting expired rooms", { status: 500 });
   }
 }
