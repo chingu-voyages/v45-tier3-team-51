@@ -12,7 +12,6 @@ import { pusherClient } from '@/lib/pusher';
 
 export default function Home() {
 
-	// roomId is extrcted from the params, perhaps there's a better place to do this than here?
 	const path = usePathname();
 	const roomId = (path.split('/')[2])
 
@@ -21,116 +20,42 @@ export default function Home() {
 
 
 	useEffect(() => {
-		console.log("useEffect refreshing");
-		// getting the current question number of the room
+		// getting the current question text of the room
 		fetch(`/api/room/${roomId}`)
 		.then(response => response.json())
 		.then(data => {
-			console.log('current question text', data.current_question);
-			setQuestionText(data.current_question);
+			setQuestionText(data.current_question_text);
 		})
 		.catch(error => console.error('Error:', error));
 
 		// subcribe to the proper channel
 		pusherClient.subscribe(`${roomId}`)
-		console.log(`subscribed to channel ${roomId}`)
 
-		// question number coming from the server
+		// question text coming from the server
 		const questionTextHandler = (question_text: string) => {
 			setQuestionText(() => question_text)
-			console.log('current question text', question_text)
 		}
 
-		pusherClient.bind('new-question', questionTextHandler)
+		pusherClient.bind('next-question', questionTextHandler)
 
 		return () => {
 			pusherClient.unsubscribe(`${roomId}`)
-			pusherClient.unbind('new-question', questionTextHandler)
+			pusherClient.unbind('next-question', questionTextHandler)
 		}
-	}, [])
+	},[])
 
 
-
-	const nextquestionText = async () => {
-
+	const nextQuestionText = async () => {
 		await fetch(`/api/room/${roomId}`, {
 			method: 'PATCH',
 		  })
-			.then((response) => {
-				console.log("we have incremented the question");
-				if (response.ok) {
-					return response.json()
-				}
+		.then((response) => {
+			if (response.ok) {
+				return response.json()
+			}
 		}).then((response) => {
-			console.log("next questionText is", response.current_questionText)
-			response.current_questionText && setCurrentQuestionNumber(() => response.current_questionText)
+			response.current_question_text && setCurrentQuestionNumber(() => response.current_question_text)
 		})			
-		
-		// console.log("getting next question")
-		// await fetch(`/api/question/${currentQuestionNumber}`)
-		// 	.then((response) => {
-		// 		if (response.ok) {
-		// 			return response.json()
-		// 		}
-		// }).then((response) => response.questionText && setQuestionText(() => response.questionText))			
-
-
-		// updating current_questionText within our DB
-
-		// fetch(`/api/room/${roomId}`,
-		// 	{
-		// 		method: 'PATCH',
-		// 	}).then((response) => {
-		// 		return response.json()
-		// 	}).then((response) => {
-		// 		if (response.ok) {
-		// 			console.log("questionText num!", response.current_questionText),
-		// 			setCurrentQuestionNumber(() => response.current_questionText)
-		// 			fetch(`/api/questionText/${currentQuestionTextNumber}`)
-					
-		// 			.then((response) => {
-		// 				if(response.ok) {
-		// 					response.json().then((response) => {
-		// 						console.log("GET", response.questionText);
-		// 						nextquestionTextText(() => response.questionText)
-		// 					})
-							
-		// 					// console.log("after get", questionText);
-		// 					// nextquestionTextText()
-		// 				}
-		// 			})
-		// 			// if (res.ok) {
-		// 			// 	console.log("POST",  res.json())
-		// 			// }
-		// 		}
-		// 	}).catch(() => { console.log("error") })
-
-
-
-		// console.log('PATCH', data.current_questionText)
-
-		// setCurrentQuestionNumber(() => data.current_questionText)
-
-
-		// console.log("questionText_num", currentQuestionTextNumber)
-		// Pusher requires a POST request to trigger a websocket event
-		// making POST for new questionText if current questionText gets updated
-		// i think we can retrieve the current_questionText from the PATCH response and pass it on to the POST request (still needs work)
-		// if (response.ok) {
-		// 	const res = await fetch(`/api/questionText`, {
-		// 		method: 'POST',
-		// 		body: JSON.stringify({
-		// 			roomId: roomId,
-		// 			id: currentQuestionTextNumber
-		// 		})
-
-		// 	});
-		// 	console.log("after post", currentQuestionTextNumber);
-		// 	if (res.ok) {
-		// 		console.log("POST", await res.json())
-		// 	}
-		// }
-
 		
 }
 
@@ -146,8 +71,8 @@ return (
 
 			<div>
 				{questionText.includes("Waiting for players..")
-					? <Buttons text='Start Game' size='lg' onClick={nextquestionText} />
-					: <Buttons text='Next question' size='lg' onClick={nextquestionText} />
+					? <Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
+					: <Buttons text='Next question' size='lg' onClick={nextQuestionText} />
 				}
 
 			</div>
