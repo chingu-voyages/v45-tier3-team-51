@@ -10,7 +10,7 @@ export default function Home() {
 		<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 			<Header />
 			<Display text='Break the ice with fun questions!' />
-			<Link href='/room' className='relative flex place-items-center before:absolute '>
+			<Link href='/room' prefetch={false} className='relative flex place-items-center before:absolute '>
 				<Buttons text='Create Room' size='lg' />
 			</Link>
 			<Footer />

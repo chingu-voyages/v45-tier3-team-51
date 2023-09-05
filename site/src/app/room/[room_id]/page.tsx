@@ -5,12 +5,10 @@ import { Footer } from '@/components/Footer';
 import { Buttons } from '@/components/Buttons';
 import { CopyLink } from '@/components/CopyLink';
 import { Display } from '@/components/Display';
-
+import { getBaseUrl } from '@/lib/server/getBaseUrl';
 const nextQuestionHandler = () => {
 	console.log('test');
 };
-
-// async function roomSetup() {}
 
 export default function Home() {
 	return (
@@ -18,7 +16,7 @@ export default function Home() {
 			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 				<Header />
 				<Display text='LINK / QUESTION' />
-				<CopyLink />
+				<CopyLink hostName={getBaseUrl()} />
 				<Buttons text='Next Question' size='lg' onClick={nextQuestionHandler} />
 				<Footer />
 
