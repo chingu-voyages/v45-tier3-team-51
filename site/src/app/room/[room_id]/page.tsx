@@ -49,7 +49,7 @@ export default function Home() {
 		await fetch(`/api/room/${roomId}`, {
 			method: 'PATCH',
 		  })
-		.then((response) => {
+		  .then((response) => {
 			if (response.ok) {
 				return response.json()
 			}
@@ -65,12 +65,12 @@ return (
 		<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 			<Header />
 			<div style={{ display: currentQuestionNumber > 1 ? "none" : "" }}>
-				<CopyLink />
+				<CopyLink hostName={"http://localhost:3000"} />
 			</div>
 			<Display text={questionText} />
 
 			<div>
-				{questionText.includes("Waiting for players..")
+				{questionText.includes("Waiting for the game to start...")
 					? <Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
 					: <Buttons text='Next question' size='lg' onClick={nextQuestionText} />
 				}

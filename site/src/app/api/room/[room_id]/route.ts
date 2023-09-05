@@ -4,7 +4,6 @@ import { pusherServer } from '@/lib/pusher'
 
 export async function GET(req: Request, { params }: { params: { room_id: string } }) {
   const id = params.room_id;
-  
   try {
     const room = await prisma.rooms.findUnique({
       where: {
@@ -20,11 +19,10 @@ export async function GET(req: Request, { params }: { params: { room_id: string 
         },
       });
     }
-    
     if (!room || !current_question_query) {
       return new NextResponse("No room with ID found", { status: 400 });
     }
-
+    
     return NextResponse.json({room_id:room.room_id, current_question_text: current_question_query.question});
   } catch (error) {
     console.error(`Error fetching room with ID ${id}:`, error);
@@ -34,6 +32,7 @@ export async function GET(req: Request, { params }: { params: { room_id: string 
 
 
 export const PATCH = async (req: Request, { params }: { params: { room_id: string } }) => {
+
   const room_id = params.room_id;
 
   try {
