@@ -44,10 +44,10 @@ export async function DELETE(req: Request) {
         },
       },
     });
-
     console.log("Successfully deleted expired rooms!");
-
-    return NextResponse.json(res);
+    return new NextResponse("Successfully deleted expired rooms!", {
+      status: 200,
+    });
   } catch (error) {
     console.error("Error deleting expired rooms:", error);
     return new NextResponse("Error deleting expired rooms", { status: 500 });
