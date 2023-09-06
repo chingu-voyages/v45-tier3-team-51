@@ -1,14 +1,58 @@
 "use client";
 
 import { AppName } from "@/components/AppName";
+import {
+  createStyles,
+  Header,
+  Container,
+  Group,
+  Button,
+  rem,
+  ActionIcon,
+} from "@mantine/core";
+import React, { useState } from "react";
+import { Buttons } from "@/components/Buttons";
+import Link from "next/link";
 
-export function Header() {
+const HEADER_HEIGHT = rem(60);
+
+const useStyles = createStyles((theme) => ({
+  inner: {
+    height: HEADER_HEIGHT,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // backgroundColor: "#E7F5FF",
+  },
+  links: {
+    [theme.fn.smallerThan("xs")]: {
+      marginTop: theme.spacing.md,
+    },
+  },
+}));
+
+// const mainStyles = {
+//   backgroundColor: "#E7F5FF",
+// };
+
+export function HeaderAction() {
+  const { classes } = useStyles();
+
   return (
-    <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-      <AppName />
-      <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-        About
-      </div>
-    </div>
+    <Header height={HEADER_HEIGHT} sx={{ borderBottom: 0 }} mb={120}>
+      <Container className={classes.inner} fluid>
+        {/* <Group spacing={0} className={classes.links} position="left" noWrap> */}
+        <ActionIcon size="xl">
+          <AppName />
+        </ActionIcon>
+        {/* </Group> */}
+        <Link
+          href="/about"
+          className="relative flex place-items-center before:absolute "
+        >
+          <Buttons text="About" size="xs" />
+        </Link>
+      </Container>
+    </Header>
   );
 }
