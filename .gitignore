@@ -35,3 +35,6 @@ site/*.tsbuildinfo
 site/next-env.d.ts
 
 .vscode/
+
+site/package-lock.json
+site/node_modules
