@@ -1,7 +1,6 @@
 "use client";
 
 import { Footer } from "@/components/Footer";
-import { AppName } from "@/components/AppName";
 import {
   createStyles,
   Avatar,
@@ -9,7 +8,6 @@ import {
   Container,
   Paper,
   Text,
-  Button,
 } from "@mantine/core";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { Display } from "@/components/Display";
@@ -91,7 +89,6 @@ export default function About() {
         <HeaderAction />
 
         <div className="flex-grow flex flex-col items-center justify-center">
-          {/* Display */}
           <Container size="lg" mt={4}>
             <Paper shadow="xs" className="p-20">
               <div className="mb-6 text-center" id="what-how-section">
@@ -202,7 +199,6 @@ export default function About() {
             </Paper>
           </Container>
 
-          {/* Display */}
           <div className="mb-6 text-center mt-20" id="team-section">
             <Display text="The Team" />
           </div>

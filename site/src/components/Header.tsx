@@ -5,12 +5,10 @@ import {
   createStyles,
   Header,
   Container,
-  Group,
-  Button,
   rem,
   ActionIcon,
 } from "@mantine/core";
-import React, { useState } from "react";
+import React from "react";
 import { Buttons } from "@/components/Buttons";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -23,7 +21,6 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    // backgroundColor: "#E7F5FF",
   },
   links: {
     [theme.fn.smallerThan("xs")]: {
@@ -31,10 +28,6 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
-
-// const mainStyles = {
-//   backgroundColor: "#E7F5FF",
-// };
 
 export function HeaderAction() {
   const { classes } = useStyles();

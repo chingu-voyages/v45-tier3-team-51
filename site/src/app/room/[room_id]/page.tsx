@@ -15,7 +15,6 @@ export default function Home() {
     <main className="flex flex-col min-h-screen p-4">
       <HeaderAction />
       <div className="flex-grow flex flex-col items-center justify-center">
-        {/* Display */}
         <div className="mb-6 text-center">
           <Display text="LINK / QUESTION" />
         </div>
