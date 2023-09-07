@@ -2,9 +2,20 @@
 
 import { Footer } from "@/components/Footer";
 import { AppName } from "@/components/AppName";
-import { createStyles, Avatar, Text, Group } from "@mantine/core";
+import {
+  createStyles,
+  Avatar,
+  Group,
+  Container,
+  Paper,
+  Text,
+  Button,
+} from "@mantine/core";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { Display } from "@/components/Display";
+import { HeaderAction } from "@/components/Header";
+import { Buttons } from "@/components/Buttons";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -26,7 +37,7 @@ interface UserInfoActionProps {
   job: string;
 }
 
-// Create an array of user information objects
+// Create an array of dev information objects
 const devs = [
   {
     avatar: "/avatar1.webp",
@@ -75,82 +86,154 @@ export default function About() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-4">
-        <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-          <AppName />
-        </div>
+      <main className="flex flex-col min-h-screen p-4">
+        {/* Header */}
+        <HeaderAction />
 
         <div className="flex-grow flex flex-col items-center justify-center">
           {/* Display */}
-          <div className="mb-6 text-center">
-            <Display text="IceBreaker" />
-            <Display text="Break the Ice with Strangers!" />
-            <Text>
-              Are you tired of those awkward silences when meeting new people?
-              Do you wish there was a fun and engaging way to connect with
-              strangers? Look no further, because IceBreaker is here to save the
-              day! What is IceBreaker? IceBreaker is a unique and exciting game
-              designed to help you break the ice with strangers and turn those
-              awkward moments into memorable interactions. It s the ultimate
-              ice-breaking tool for any social gathering or event. How Does It
-              Work? Using IceBreaker is as easy as sharing a link with the
-              people you want to play with. Whether you re at a party, a
-              team-building event, a virtual meeting, or just hanging out with
-              new friends, IceBreaker is the perfect way to kickstart
-              conversations. Create a Room: Start by creating a virtual room and
-              generate a shareable link. Invite Participants: Share the link
-              with the people you want to connect with. They can join the room
-              from their smartphones or computers. Begin the Fun: Once everyone
-              is in the room, you can start the game! IceBreaker will suggest
-              fun and lighthearted actions or questions that everyone can
-              participate in. Why Choose IceBreaker? No More Awkward Silences:
-              IceBreaker turns awkward moments into opportunities for laughter
-              and bonding. You ll never run out of things to talk about.
-              Inclusive and Diverse: IceBreaker is designed for people of all
-              backgrounds, ages, and interests. It s a game that brings people
-              together, regardless of their differences. Easy to Use: IceBreaker
-              s user-friendly interface makes it simple to start and play. No
-              complicated setups or downloads required. Endless Fun: With a wide
-              variety of ice-breaking actions and questions, you can play
-              IceBreaker over and over again, and it will always feel fresh and
-              exciting. Join the IceBreaker Community! Whether you re at a
-              social event, a virtual meetup, or just looking to connect with
-              new people online, IceBreaker is the game that will keep the
-              conversation flowing and the smiles coming. Say goodbye to awkward
-              silences and hello to unforgettable moments. Ready to break the
-              ice and create lasting connections? Give IceBreaker a try today
-              and see how it transforms your social interactions! Get Started
-              with IceBreaker and let the fun begin!
-            </Text>
-          </div>
+          <Container size="lg" mt={4}>
+            <Paper shadow="xs" className="p-20">
+              <div className="mb-6 text-center" id="what-how-section">
+                <Display text="IceBreaker - Break the Ice with Strangers!" />
+              </div>
+
+              <Text className="mt-20">
+                Are you tired of those awkward silences when meeting new people?
+                Do you wish there was a fun and engaging way to connect with
+                strangers? Look no further, because <strong>IceBreaker</strong>{" "}
+                is here to save the day!
+              </Text>
+
+              <Text mt={5}>
+                <strong>What is IceBreaker?</strong>
+              </Text>
+
+              <Text>
+                IceBreaker is a unique and exciting game designed to help you
+                break the ice with strangers and turn those awkward moments into
+                memorable interactions. It&apos;s the ultimate ice-breaking tool
+                for any social gathering or event.
+              </Text>
+
+              <Text mt={5}>
+                <strong>How Does It Work?</strong>
+              </Text>
+
+              <Text>
+                Using IceBreaker is as easy as sharing a link with the people
+                you want to play with. Whether you&apos;re at a party, a
+                team-building event, a virtual meeting, or just hanging out with
+                new friends, IceBreaker is the perfect way to kickstart
+                conversations.
+              </Text>
+
+              <Text mt={3}>
+                <ol>
+                  <li>
+                    <strong>Create a Room:</strong> Start by creating a virtual
+                    room and generate a shareable link.
+                  </li>
+                  <li>
+                    <strong>Invite Participants:</strong> Share the link with
+                    the people you want to connect with. They can join the room
+                    from their smartphones or computers.
+                  </li>
+                  <li>
+                    <strong>Begin the Fun:</strong> Once everyone is in the
+                    room, you can start the game! IceBreaker will suggest fun
+                    and lighthearted actions or questions that everyone can
+                    participate in.
+                  </li>
+                </ol>
+              </Text>
+
+              <Text mt={5}>
+                <strong>Why Choose IceBreaker?</strong>
+              </Text>
+
+              <Text>
+                <ul>
+                  <li>
+                    <strong>No More Awkward Silences:</strong> IceBreaker turns
+                    awkward moments into opportunities for laughter and bonding.
+                    You&apos;ll never run out of things to talk about.
+                  </li>
+                  <li>
+                    <strong>Inclusive and Diverse:</strong> IceBreaker is
+                    designed for people of all backgrounds, ages, and interests.
+                    It&apos;s a game that brings people together, regardless of
+                    their differences.
+                  </li>
+                  <li>
+                    <strong>Easy to Use:</strong> IceBreaker&apos;s
+                    user-friendly interface makes it simple to start and play.
+                    No complicated setups or downloads required.
+                  </li>
+                  <li>
+                    <strong>Endless Fun:</strong> With a wide variety of
+                    ice-breaking actions and questions, you can play IceBreaker
+                    over and over again, and it will always feel fresh and
+                    exciting.
+                  </li>
+                </ul>
+              </Text>
+
+              <Text mt={5}>
+                <strong>Join the IceBreaker Community!</strong>
+              </Text>
+
+              <Text>
+                Whether you&apos;re at a social event, a virtual meetup, or just
+                looking to connect with new people online, IceBreaker is the
+                game that will keep the conversation flowing and the smiles
+                coming. Say goodbye to awkward silences and hello to
+                unforgettable moments.
+              </Text>
+
+              <div className="text-center mt-20 ">
+                <Link href="/room" prefetch={false}>
+                  <Buttons
+                    text="Get Started with IceBreaker, create a room now!"
+                    size="lg"
+                  />
+                </Link>
+              </div>
+            </Paper>
+          </Container>
 
           {/* Display */}
-          <div className="mb-6 text-center">
+          <div className="mb-6 text-center mt-20" id="team-section">
             <Display text="The Team" />
           </div>
 
           {/* The Team is displayed */}
           <div>
             {devs.map((dev, index) => (
-              <div key={dev.name}>
-                <Group noWrap>
+              <div key={dev.name} className="mb-6">
+                <Group noWrap spacing={10} mt={3}>
                   <Avatar src={dev.avatar} size={94} radius="md" />
+
                   <div>
                     <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
                       {dev.title}
                     </Text>
 
-                    <Text fz="lg" fw={500} className={classes.name}>
+                    <Text fz="lg" fw={500} className={classes.name} mt={1}>
                       {dev.name}
                     </Text>
-                    <Group noWrap spacing={10} mt={5}>
+
+                    <Group noWrap spacing={10} mt={3}>
                       <a
                         href={dev.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Group noWrap spacing={10} mt={3}>
+                        <Group noWrap spacing={10}>
                           <IconBrandLinkedin size="1rem" stroke={1.5} />
+                          <Text fz="xs" c="dimmed" ml={1}>
+                            LinkedIn
+                          </Text>
                         </Group>
                       </a>
                       <a
@@ -158,8 +241,11 @@ export default function About() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Group noWrap spacing={10} mt={5}>
+                        <Group noWrap spacing={10}>
                           <IconBrandGithub size="1rem" stroke={1.5} />
+                          <Text fz="xs" c="dimmed" ml={1}>
+                            GitHub
+                          </Text>
                         </Group>
                       </a>
                       <a
@@ -168,31 +254,12 @@ export default function About() {
                         rel="noopener noreferrer"
                       >
                         <Text fz="xs" c="dimmed">
-                          {dev.portfolio}
+                          Portfolio
                         </Text>
                       </a>
                     </Group>
-                    {/* <a
-                      href={dev.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Group noWrap spacing={10} mt={3}>
-                        <IconBrandLinkedin size="1rem" stroke={1.5} />
-                      </Group>
-                    </a>
-
-                    <a
-                      href={dev.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Group noWrap spacing={10} mt={5}>
-                        <IconBrandGithub size="1rem" stroke={1.5} />
-                      </Group>
-                    </a> */}
-                  </div>{" "}
-                </Group>{" "}
+                  </div>
+                </Group>
               </div>
             ))}
           </div>

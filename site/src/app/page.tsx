@@ -6,13 +6,9 @@ import { Buttons } from "@/components/Buttons";
 import { Display } from "@/components/Display";
 import Link from "next/link";
 
-const mainStyles = {
-  // backgroundColor: "#E7F5FF",
-};
-
 export default function Home() {
   return (
-    <main className="flex flex-col min-h-screen p-4" style={mainStyles}>
+    <main className="flex flex-col min-h-screen p-4">
       {/* Header */}
       <HeaderAction />
 
