@@ -16,7 +16,7 @@ export default function Home() {
 			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 				<Header />
 				<Display text='LINK / QUESTION' />
-				<CopyLink hostName={getBaseUrl()} />
+				<CopyLink hostName={window.location.hostname} />
 				<Buttons text='Next Question' size='lg' onClick={nextQuestionHandler} />
 				<Footer />
 

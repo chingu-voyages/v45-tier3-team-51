@@ -4,7 +4,6 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Buttons } from '@/components/Buttons';
 import { Display } from '@/components/Display';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
