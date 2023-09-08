@@ -102,7 +102,7 @@ export default function About() {
                 is here to save the day!
               </Text>
 
-              <Text mt={5}>
+              <Text mt={15} style={{ fontSize: "1.5em" }}>
                 <strong>What is IceBreaker?</strong>
               </Text>
 
@@ -113,7 +113,7 @@ export default function About() {
                 for any social gathering or event.
               </Text>
 
-              <Text mt={5}>
+              <Text mt={15} style={{ fontSize: "1.5em" }}>
                 <strong>How Does It Work?</strong>
               </Text>
 
@@ -125,7 +125,7 @@ export default function About() {
                 conversations.
               </Text>
 
-              <Text mt={3}>
+              <Text mt={10}>
                 <ol>
                   <li>
                     <strong>Create a Room:</strong> Start by creating a virtual
@@ -145,7 +145,7 @@ export default function About() {
                 </ol>
               </Text>
 
-              <Text mt={5}>
+              <Text mt={15} style={{ fontSize: "1.5em" }}>
                 <strong>Why Choose IceBreaker?</strong>
               </Text>
 
@@ -176,7 +176,7 @@ export default function About() {
                 </ul>
               </Text>
 
-              <Text mt={5}>
+              <Text mt={15} style={{ fontSize: "1.5em" }}>
                 <strong>Join the IceBreaker Community!</strong>
               </Text>
 
