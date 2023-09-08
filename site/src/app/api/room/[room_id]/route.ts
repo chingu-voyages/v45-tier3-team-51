@@ -32,9 +32,7 @@ export async function GET(req: Request, { params }: { params: { room_id: string 
 
 
 export const PATCH = async (req: Request, { params }: { params: { room_id: string } }) => {
-
   const room_id = params.room_id;
-
   try {
       const room_response = await prisma.rooms.update({
         where: {
@@ -61,10 +59,9 @@ export const PATCH = async (req: Request, { params }: { params: { room_id: strin
         return new NextResponse("Cannot update the current room's question", { status: 404 });
       }
 
-      console.log('trigger pusher event')
       pusherServer.trigger(`${room_id}`, 'next-question', current_question_query.question)
 
-      return NextResponse.json({room_id:room_response.room_id, current_question_text:current_question_query.question});
+      return new NextResponse("", {status:200});
   } catch(error){
       return new Response('failed to update room', {status:500})
   }

@@ -14,10 +14,7 @@ export default function Home() {
 
 	const path = usePathname();
 	const roomId = (path.split('/')[2])
-
 	const [questionText, setQuestionText] = useState('')
-	const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0)
-
 
 	useEffect(() => {
 		// getting the current question text of the room
@@ -49,14 +46,6 @@ export default function Home() {
 		await fetch(`/api/room/${roomId}`, {
 			method: 'PATCH',
 		  })
-		  .then((response) => {
-			if (response.ok) {
-				return response.json()
-			}
-		}).then((response) => {
-			response.current_question_text && setCurrentQuestionNumber(() => response.current_question_text)
-		})			
-		
 }
 
 
@@ -64,7 +53,7 @@ return (
 	<>
 		<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 			<Header />
-			<div style={{ display: currentQuestionNumber > 1 ? "none" : "" }}>
+			<div style={{ display: questionText.includes("Waiting for the game to start...") ? "" : "none" }}>
 				<CopyLink hostName={"http://localhost:3000"} />
 			</div>
 			<Display text={questionText} />
