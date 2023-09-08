@@ -1,41 +1,46 @@
-'use client';
+"use client"
 
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { Buttons } from '@/components/Buttons';
-import { Display } from '@/components/Display';
+import { HeaderAction } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Buttons } from "@/components/Buttons";
+import { Display } from "@/components/Display";
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
-	const router = useRouter();
+  const router = useRouter();
 
 	async function createRoom() {
-		try {
-			const res = await fetch('/api/room', {
-			  method: 'POST',
-			});
-	  
-			if (res.ok) {
-			  const { room_id } = await res.json();
-			  router.push(`/room/${room_id}`);
-			} else {
-			  console.log('Failed to create room');
-			  router.push(`/error`);
-			}
-		  } catch (error) {
-			console.log('Error creating room:', error);
-		  }
+    const res = await fetch('/api/room', {
+      method: 'POST',
+    });
+    if (res.ok) {
+      const { room_id } = await res.json();
+      router.push(`/room/${room_id}`);
+    } else {
+      console.log('Failed to create room');
+      router.push(`/error`);
+    }
 	}
+  
+  return (
+    <main className="flex flex-col min-h-screen p-4">
+      {/* Header */}
+      <HeaderAction />
 
+      <div className="flex-grow flex flex-col items-center justify-center">
+        {/* Display */}
+        <div className="mb-6 text-center">
+          <Display text="Break the ice with fun questions!" />
+        </div>
 
-	return (
-		<main className='flex min-h-screen flex-col items-center justify-between p-24'>
-			<Header />
-			<Display text='Break the ice with fun questions!' />
-			{/* <Link href='/room' prefetch={false} className='relative flex place-items-center before:absolute '> */}
-			<Buttons onClick={createRoom} text='Create Room' size='lg' />
-			{/* </Link> */}
-			<Footer />
-		</main>
-	);
+        {/* Buttons */}
+        <div className="text-center">
+            <Buttons onClick={createRoom} text='Create Room' size='lg' />
+        </div>
+      </div>
+
+      {/* Footer */}
+      <Footer />
+    </main>
+  );
 }
