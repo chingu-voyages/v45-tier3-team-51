@@ -1,6 +1,6 @@
-// 'use client';
-import { getBaseUrl } from '@/lib/server/getBaseUrl';
-import { CopyButton, Button } from '@mantine/core';
+'use client'
+
+import { Button, CopyButton } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 
 type props = {
@@ -17,7 +17,7 @@ export function CopyLink({ hostName }: props) {
 			<CopyButton value={shareLink}>
 				{({ copied, copy }: any) => (
 					<Button color={copied ? 'teal' : 'blue'} onClick={copy} variant='white' className='px-3 text-lg'>
-						{copied ? 'Copy' : 'Copy'}
+						{'Copy'}
 					</Button>
 				)}
 			</CopyButton>

@@ -21,11 +21,9 @@ export default function Home() {
 			} else {
 			  console.log('Failed to create room');
 			  router.push(`/error`);
-			  // Handle error case
 			}
 		  } catch (error) {
 			console.log('Error creating room:', error);
-			// Handle error case
 		  }
 	}
 

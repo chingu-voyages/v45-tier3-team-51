@@ -3,31 +3,15 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    // Find the maximum room_id in the database
-    const maxRoom = await prisma.rooms.findFirst({
-      select: { room_id: true },
-      //tthe highest room_id will be returned as the first result
-      orderBy: { room_id: "desc" },
-    });
-
-    // Calculate the next available room_id // and if maxRoom is null nextRoomId will be set to 1 ( '0) + 1;' )
-    const nextRoomId = (maxRoom?.room_id || 0) + 1;
-
     // Create a new room with the calculated room_id nextRoomId
     const new_room = await prisma.rooms.create({
-      data: {
-        room_id: nextRoomId,
-        current_question: 0,
-      },
+      data: {}
     });
-    // return NextResponse.redirect(new URL(`/room/${new_room.room_id}`, req.url));
     return NextResponse.json({ room_id: new_room.room_id });
-    // return new NextResponse("", { status: 200});
     
   } catch (error) {
     console.error(`Error creating room: `, error);
     return new NextResponse("", { status: 500});
-    // return NextResponse.redirect(new URL(`/error`));
   }
 }
 

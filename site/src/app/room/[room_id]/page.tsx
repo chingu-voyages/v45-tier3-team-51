@@ -1,11 +1,10 @@
 'use client';
 
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { Buttons } from '@/components/Buttons';
 import { CopyLink } from '@/components/CopyLink';
 import { Display } from '@/components/Display';
-import { getBaseUrl } from '@/lib/server/getBaseUrl';
+import { Footer } from '@/components/Footer';
+import { Header } from '@/components/Header';
 const nextQuestionHandler = () => {
 	console.log('test');
 };
@@ -15,7 +14,7 @@ export default function Home() {
 		<>
 			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 				<Header />
-				<Display text='LINK / QUESTION' />
+				<Display text='Waiting for others to join...' />
 				<CopyLink hostName={window.location.hostname} />
 				<Buttons text='Next Question' size='lg' onClick={nextQuestionHandler} />
 				<Footer />
