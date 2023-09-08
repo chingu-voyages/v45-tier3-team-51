@@ -20,15 +20,14 @@ export async function POST(req: Request) {
         current_question: 0,
       },
     });
-
-    return NextResponse.json({
-      room_id: new_room.room_id,
-      current_question: new_room.current_question,
-      created_at: new_room.created_at,
-    });
+    // return NextResponse.redirect(new URL(`/room/${new_room.room_id}`, req.url));
+    return NextResponse.json({ room_id: new_room.room_id });
+    // return new NextResponse("", { status: 200});
+    
   } catch (error) {
     console.error(`Error creating room: `, error);
-    return new NextResponse("Error creating room", { status: 500 });
+    return new NextResponse("", { status: 500});
+    // return NextResponse.redirect(new URL(`/error`));
   }
 }
 
