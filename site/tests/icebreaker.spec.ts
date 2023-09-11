@@ -5,6 +5,12 @@ const url = 'http://localhost:3000/';
 
 const titleContent = 'Break the ice with fun questions!';
 
+// test('basic test', async ({ page }) => {
+// 	await page.goto(url);
+// 	const title = page.locator('.mantine-Title-root');
+// 	await expect(title).toHaveText(titleContent);
+// });
+
 test('load the landing page succesfully', async ({ page }) => {
 	const response = await page.request.get(url);
 	await expect(response).toBeOK();
