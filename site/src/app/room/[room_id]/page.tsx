@@ -15,6 +15,8 @@ export default function Home() {
 	const roomId = path.split('/')[2];
 	const [questionText, setQuestionText] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
+	const [currentQuestion, setCurrentQuestion] = useState(0);
+	// console.log(currentQuestion);
 	// const updateDb = useMemo(() =>{
 	// 	setIsLoading(false)
 	// }, [questionText])
@@ -25,6 +27,7 @@ export default function Home() {
 			.then((response) => response.json())
 			.then((data) => {
 				setQuestionText(data.current_question_text);
+				setCurrentQuestion(data.current_question);
 				// setIsLoading(false); // Set isLoading to false when the question is fetched
 			})
 			.catch((error) => {
@@ -65,26 +68,36 @@ export default function Home() {
 		<main className='flex flex-col min-h-screen p-4'>
 			<HeaderAction />
 			<div className='flex-grow flex flex-col items-center justify-center'>
-				<div
-					style={{
-						display: questionText.includes('Waiting for') ? '' : 'none',
-					}}
-					className='mb-6 text-center'
-				>
-					<CopyLink hostName={getBaseUrl()} />
-				</div>
-				<div className='mb-6 text-center'>
-					{isLoading ? <div>Is Loading...</div> : <Display text={questionText} />}
-				</div>
-				<div className='mt-6 text-center'>
-					{questionText.includes('Waiting for') ? (
+				<div className='mb-6 text-center'>{isLoading ? <></> : <Display text={questionText} />}</div>
+				{currentQuestion == 0 ? (
+					<div className='flex flex-col gap-3'>
+						<Display text={'Share the link below with other participants'} />
+						<div className='mb-6 text-center'>
+							<CopyLink hostName={getBaseUrl()} />
+						</div>
+						<Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
+					</div>
+				) : isLoading ? (
+					<div>Loading...</div>
+				) : (
+					<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
+				)}
+				{/* <div className='mt-6 text-center'> */}
+				{/* {currentQuestion.includes('Waiting for') ? (
+						// <Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
+					) : isLoading ? (
+						<></>
+					) : (
+						<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
+					)} */}
+				{/* {questionText.includes('Waiting for') ? (
 						<Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
 					) : isLoading ? (
 						<></>
 					) : (
 						<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
-					)}
-				</div>
+					)} */}
+				{/* </div> */}
 			</div>
 			<Footer />
 		</main>
