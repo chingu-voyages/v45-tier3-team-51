@@ -41,6 +41,11 @@ export default function Home() {
 			setIsLoading(false);
 		};
 
+		const loadThis = () => {
+			setIsLoading(true);
+		};
+
+		pusherClient.bind('setupLoading', loadThis);
 		pusherClient.bind('next-question', questionTextHandler);
 
 		return () => {
@@ -50,7 +55,7 @@ export default function Home() {
 	}, [roomId, questionText]);
 
 	const nextQuestionText = async () => {
-		setIsLoading(true);
+		// setIsLoading(true);
 		// disable button
 		await fetch(`/api/room/${roomId}`, {
 			method: 'PATCH',
