@@ -26,9 +26,7 @@ async function main() {
         { question: "If you could have a conversation with your future self, what advice or questions would you have?"},
         { question: "Favorite childhood memory?" },
     ], skipDuplicates: true,}
-
     )
-    console.log('added questions')
 }
 
 main()

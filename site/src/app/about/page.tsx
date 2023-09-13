@@ -1,6 +1,5 @@
 "use client";
 
-import { Footer } from "@/components/Footer";
 import {
   createStyles,
   Avatar,
@@ -11,7 +10,6 @@ import {
 } from "@mantine/core";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { Display } from "@/components/Display";
-import { HeaderAction } from "@/components/Header";
 import { Buttons } from "@/components/Buttons";
 import Link from "next/link";
 
@@ -83,11 +81,6 @@ export default function About() {
   const { classes } = useStyles();
 
   return (
-    <>
-      <main className="flex flex-col min-h-screen p-4">
-        {/* Header */}
-        <HeaderAction />
-
         <div className="flex-grow flex flex-col items-center justify-center">
           <Container size="lg" mt={4}>
             <Paper shadow="xs" className="p-20">
@@ -261,8 +254,5 @@ export default function About() {
           </div>
         </div>
 
-        <Footer />
-      </main>
-    </>
   );
 }

@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { Buttons } from "@/components/Buttons";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname} from "next/navigation";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -32,9 +32,7 @@ const useStyles = createStyles((theme) => ({
 export function HeaderAction() {
   const { classes } = useStyles();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  console.log("toto", pathname, "tata", searchParams);
   return (
     <Header height={HEADER_HEIGHT} sx={{ borderBottom: 0 }} mb={120}>
       <Container className={classes.inner} fluid>

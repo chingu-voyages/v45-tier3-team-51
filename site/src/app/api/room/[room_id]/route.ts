@@ -25,7 +25,6 @@ export async function GET(req: Request, { params }: { params: { room_id: string 
     
     return NextResponse.json({room_id:room.room_id, current_question_text: current_question_query.question});
   } catch (error) {
-    console.error(`Error fetching room with ID ${id}:`, error);
     return new NextResponse("Error fetching room", { status: 500 });
   }
 }
