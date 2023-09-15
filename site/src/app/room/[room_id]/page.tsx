@@ -17,6 +17,7 @@ export default function Home() {
 	const [questionText, setQuestionText] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentQuestion, setCurrentQuestion] = useState(0);
+	const [complete, setComplete] = useState(false);
 	// console.log(currentQuestion);
 	// const updateDb = useMemo(() =>{
 	// 	setIsLoading(false)
@@ -49,6 +50,12 @@ export default function Home() {
 			setIsLoading(true);
 		};
 
+		const finishThis = () => {
+			setComplete(true);
+			setIsLoading(false);
+		};
+
+		pusherClient.bind('finish', finishThis);
 		pusherClient.bind('setupLoading', loadThis);
 		pusherClient.bind('next-question', questionTextHandler);
 
@@ -59,10 +66,10 @@ export default function Home() {
 	}, [roomId, questionText]);
 
 	const nextQuestionText = async () => {
-		// setIsLoading(true);
 		// disable button
 		await fetch(`/api/room/${roomId}`, {
 			method: 'PATCH',
+			body: JSON.stringify({ current_question: currentQuestion }),
 		});
 	};
 
@@ -78,7 +85,7 @@ export default function Home() {
 					{isLoading ? (
 						// if loading don't display anything
 						<></>
-					) : currentQuestion < 20 ? (
+					) : currentQuestion < 5 && !complete ? (
 						// if currentQuesion is below 20 (hardcoded) display the quesiton text
 						<Display text={questionText} />
 					) : (
@@ -99,29 +106,15 @@ export default function Home() {
 				) : isLoading ? (
 					// room questions have begun, however the page is waiting for the trigger to provide the next question text. display loading for now.
 					<div>Loading...</div>
-				) : currentQuestion < 20 ? (
+				) : currentQuestion < 4 ? (
 					// room has started and has not finished, display Next Question on button and use onClick nextQuestionText.
 					<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
-				) : (
+				) : currentQuestion == 4 ? (
 					// if room has reached max number of questions, don't display anything.
+					<Buttons text='finish' size='lg' onClick={nextQuestionText} />
+				) : (
 					<></>
 				)}
-				{/* <div className='mt-6 text-center'> */}
-				{/* {currentQuestion.includes('Waiting for') ? (
-						// <Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
-					) : isLoading ? (
-						<></>
-					) : (
-						<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
-					)} */}
-				{/* {questionText.includes('Waiting for') ? (
-						<Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
-					) : isLoading ? (
-						<></>
-					) : (
-						<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
-					)} */}
-				{/* </div> */}
 			</div>
 			<Footer />
 		</main>

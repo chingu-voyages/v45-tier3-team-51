@@ -37,7 +37,14 @@ export async function GET(req: Request, { params }: { params: { room_id: string 
 export const PATCH = async (req: Request, { params }: { params: { room_id: string } }) => {
 	// immediate response to all users who are subscribed, loading = true
 	const room_id = params.room_id;
+	const body = await req.json();
+	console.log('body: ', body);
 	pusherServer.trigger(`${room_id}`, 'setupLoading', '');
+
+	if (body.current_question == 4) {
+		pusherServer.trigger(`${room_id}`, 'finish', '');
+	}
+
 	// pusherServer.trigger('loading')
 
 	try {
