@@ -23,26 +23,36 @@ export default function Home() {
 	// 	setIsLoading(false)
 	// }, [questionText])
 	useEffect(() => {
-		let isLoading = true;
+		// let isLoading = true;
 		// getting the current question text of the room
+
+		// if (currentQuestion == null) {
 		fetch(`/api/room/${roomId}`)
 			.then((response) => response.json())
 			.then((data) => {
 				setQuestionText(data.current_question_text);
 				setCurrentQuestion(data.current_question);
-				// setIsLoading(false); // Set isLoading to false when the question is fetched
+				setIsLoading(false); // Set isLoading to false when the question is fetched
 			})
 			.catch((error) => {
 				console.error('Error:', error);
 				// setIsLoading(false); // Set isLoading to false even on error
 			});
+		// }
 
 		// subcribe to the proper channel
 		pusherClient.subscribe(`${roomId}`);
 
+		type returns = {
+			question_text: string;
+			question_num: string;
+		};
+
 		// question text coming from the server
-		const questionTextHandler = (question_text: string) => {
-			setQuestionText(() => question_text);
+		const questionTextHandler = (returns: returns) => {
+			setQuestionText(() => returns.question_text);
+			const qn = parseInt(returns.question_num);
+			setCurrentQuestion(qn);
 			setIsLoading(false);
 		};
 
@@ -59,6 +69,9 @@ export default function Home() {
 		pusherClient.bind('setupLoading', loadThis);
 		pusherClient.bind('next-question', questionTextHandler);
 
+		if (currentQuestion > 5) {
+			setComplete(true);
+		}
 		return () => {
 			pusherClient.unsubscribe(`${roomId}`);
 			pusherClient.unbind('next-question', questionTextHandler);
@@ -66,7 +79,6 @@ export default function Home() {
 	}, [roomId, questionText]);
 
 	const nextQuestionText = async () => {
-		// disable button
 		await fetch(`/api/room/${roomId}`, {
 			method: 'PATCH',
 			body: JSON.stringify({ current_question: currentQuestion }),
@@ -76,25 +88,67 @@ export default function Home() {
 	// const completionPage = () => {
 	// 	router.push();
 	// };
+	console.log('current question: ', currentQuestion, 'is loading: ', isLoading);
 
 	return (
 		<main className='flex flex-col min-h-screen p-4'>
 			<HeaderAction />
 			<div className='flex-grow flex flex-col items-center justify-center'>
 				<div className='mb-6 text-center'>
-					{isLoading ? (
+					{/*
+					if complete
+						display -> thanks for playing
+					else
+						if loading
+							display -> loading
+						else
+							if currentQuestion == 0
+								display -> copyLink
+							else if currentQuestion < 2
+								display -> question text + next question
+							else 
+								display -> question text + finish
+					*/}
+					{complete ? (
+						<Display text={'Thanks for playing!'} />
+					) : isLoading && currentQuestion > 0 ? (
+						<div>Loading...</div>
+					) : !isLoading && currentQuestion == 0 ? (
+						<div className='flex flex-col gap-3'>
+							<Display text={'Share the link below with other participants'} />
+							<div className='mb-6 text-center'>
+								<CopyLink hostName={getBaseUrl()} />
+							</div>
+							<Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
+						</div>
+					) : !isLoading && currentQuestion < 5 ? (
+						<>
+							<Display text={questionText} />
+							<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
+						</>
+					) : (
+						!isLoading && (
+							<>
+								<Display text={questionText} />
+								<Buttons text='finish' size='lg' onClick={nextQuestionText} />
+							</>
+						)
+					)}
+				</div>
+				{/* WORKING */}
+				{/* {isLoading ? (
 						// if loading don't display anything
 						<></>
-					) : currentQuestion < 5 && !complete ? (
+					) : currentQuestion <= 2 && !complete ? (
 						// if currentQuesion is below 20 (hardcoded) display the quesiton text
 						<Display text={questionText} />
 					) : (
 						// if we're passed Q20, display completion, no route as that requires another trigger
 						<Display text={'Thanks for playing!'} />
-					)}
-				</div>
-
-				{currentQuestion == 0 ? (
+					)} */}
+				{/* </div> */}
+				{/* WORKING */}
+				{/* {currentQuestion == 0 && isLoading ? (
 					// if currentQuestion is 0, room has not started, display share link, directions, and Start game button
 					<div className='flex flex-col gap-3'>
 						<Display text={'Share the link below with other participants'} />
@@ -106,15 +160,15 @@ export default function Home() {
 				) : isLoading ? (
 					// room questions have begun, however the page is waiting for the trigger to provide the next question text. display loading for now.
 					<div>Loading...</div>
-				) : currentQuestion < 4 ? (
+				) : currentQuestion <= 2 ? (
 					// room has started and has not finished, display Next Question on button and use onClick nextQuestionText.
 					<Buttons text='Next question' size='lg' onClick={nextQuestionText} />
-				) : currentQuestion == 4 ? (
+				) : currentQuestion > 2 ? (
 					// if room has reached max number of questions, don't display anything.
 					<Buttons text='finish' size='lg' onClick={nextQuestionText} />
 				) : (
 					<></>
-				)}
+				)} */}
 			</div>
 			<Footer />
 		</main>

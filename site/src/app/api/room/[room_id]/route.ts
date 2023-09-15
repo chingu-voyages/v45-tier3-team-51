@@ -41,7 +41,7 @@ export const PATCH = async (req: Request, { params }: { params: { room_id: strin
 	console.log('body: ', body);
 	pusherServer.trigger(`${room_id}`, 'setupLoading', '');
 
-	if (body.current_question == 4) {
+	if (body.current_question >= 5) {
 		pusherServer.trigger(`${room_id}`, 'finish', '');
 	}
 
@@ -72,7 +72,11 @@ export const PATCH = async (req: Request, { params }: { params: { room_id: strin
 			return new NextResponse("Cannot update the current room's question", { status: 404 });
 		}
 
-		pusherServer.trigger(`${room_id}`, 'next-question', current_question_query.question);
+		// pusherServer.trigger(`${room_id}`, 'next-question', current_question_query.question);
+		pusherServer.trigger(`${room_id}`, 'next-question', {
+			question_text: current_question_query.question,
+			question_num: room_response.current_question,
+		});
 
 		return new NextResponse('', { status: 200 });
 	} catch (error) {
