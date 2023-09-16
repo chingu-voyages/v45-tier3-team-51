@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { pusherServer } from '@/lib/pusher';
 
 export async function GET(req: Request, { params }: { params: { room_id: string } }) {
@@ -83,3 +83,18 @@ export const PATCH = async (req: Request, { params }: { params: { room_id: strin
 		return new Response('failed to update room', { status: 500 });
 	}
 };
+
+// export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+	const id = params.id;
+	try {
+		const res = await prisma.rooms.delete({
+			where: {
+				room_id: parseInt(id),
+			},
+		});
+		return NextResponse.json({ status: 204 });
+	} catch (error) {
+		return new NextResponse('Error deleting a room', { status: 404 });
+	}
+}
