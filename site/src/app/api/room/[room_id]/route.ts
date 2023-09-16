@@ -85,8 +85,8 @@ export const PATCH = async (req: Request, { params }: { params: { room_id: strin
 };
 
 // export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-	const id = params.id;
+export async function DELETE(req: NextRequest, { params }: { params: { room_id: string } }) {
+	const id = params.room_id;
 	try {
 		const res = await prisma.rooms.delete({
 			where: {
