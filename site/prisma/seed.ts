@@ -4,6 +4,7 @@ const prisma = new PrismaClient()
 
 async function main() {
     const q = await prisma.questions.createMany({ data : [
+        { question_id: 0, question: "Waiting for the game to start..." },
         { question: "What is your favorite color?" },
         { question: "What superpower would you choose?"},
         { question: "Favorite type of food?"},

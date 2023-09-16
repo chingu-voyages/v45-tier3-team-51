@@ -2,7 +2,7 @@
 CREATE TABLE "rooms" (
     "room_id" SERIAL NOT NULL,
     "current_question" INTEGER NOT NULL DEFAULT 0,
-    "created_at" TIMESTAMP NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "rooms_pkey" PRIMARY KEY ("room_id")
 );

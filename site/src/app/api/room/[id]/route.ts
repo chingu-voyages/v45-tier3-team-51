@@ -36,3 +36,4 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 		return new NextResponse('Error deleting a room', { status: 404 });
 	}
 }
+
