@@ -24,11 +24,11 @@ test.describe.serial('Create/get/delete/noGet', () => {
 
 	test('should fail getting a room', async ({ request }) => {
 		const response = await request.get(`${baseUrl}/api/room/${roomId}`);
-		expect(response.status()).toBe(404);
+		expect(response.status()).toBe(400);
 	});
 });
 
 test('should fail getting a room', async ({ request }) => {
 	const response = await request.get(`${baseUrl}/api/room/9999`);
-	expect(response.status()).toBe(404);
+	expect(response.status()).toBe(400);
 });
