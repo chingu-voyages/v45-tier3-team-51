@@ -1,14 +1,13 @@
 "use client";
 
-import { HeaderAction } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { Buttons } from '@/components/Buttons';
 import { CopyLink } from '@/components/CopyLink';
 import { Display } from '@/components/Display';
+import { Footer } from '@/components/Footer';
+import { HeaderAction } from '@/components/Header';
+import { pusherClient } from '@/lib/pusher';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { pusherClient } from '@/lib/pusher';
-import { getBaseUrl } from "@/lib/server/getBaseUrl";
 
 
 export default function Home() {
@@ -49,49 +48,23 @@ export default function Home() {
 		  })
 }
 
-
-// return (
-// 	<>
-// 		<main className='flex flex-col min-h-screen p-4'>
-// 			<HeaderAction />
-// 			<div style={{ display: questionText.includes("Waiting for the game to start...") ? "" : "none" }}>
-// 				<CopyLink hostName={"http://localhost:3000"} />
-// 			</div>
-// 			<Display text={questionText} />
-
-// 			<div>
-// 				{questionText.includes("Waiting for the game to start...")
-// 					? <Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
-// 					: <Buttons text='Next question' size='lg' onClick={nextQuestionText} />
-// 				}
-
-// 			</div>
-
-// 			<Footer />
-// 		</main>
-// 	</>
-// );
-
 return (
     <main className="flex flex-col min-h-screen p-4">
       <HeaderAction />
       <div className="flex-grow flex flex-col items-center justify-center">
         <div style={{ display: questionText.includes("Waiting for the game to start...") ? "" : "none" }}
 		className="mb-6 text-center" >
-          <CopyLink hostName={getBaseUrl()} />
+			<CopyLink hostName={window.location.hostname} />
 		</div>
         <div className="mb-6 text-center">
           <Display text={questionText} />
         </div>
         <div className="mb-6 text-center">
-          <CopyLink hostName={window.location.hostname} />
-          <div className="mt-6 text-center">
-	 				{questionText.includes("Waiting for the game to start...")
- 					? <Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
- 					: <Buttons text='Next question' size='lg' onClick={nextQuestionText} />
- 				}
-          
-        </div>
+			{questionText.includes("Waiting for the game to start...")
+			 ? <Buttons text='Start Game' size='lg' onClick={nextQuestionText} />
+			 : <Buttons text='Next question' size='lg' onClick={nextQuestionText} />
+			}
+		</div>
       </div>
       <Footer />
     </main>
